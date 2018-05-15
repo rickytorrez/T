@@ -1,0 +1,8 @@
+package com.ericardo.toDo.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+
+@Repository
+public interface TaskRepository extends CrudRepository<Task, Long> {
+
+}

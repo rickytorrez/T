@@ -25,7 +25,7 @@ public class User {
 	/*************************************** ATTRIBUTES **************************************/
 	@Id
 	@GeneratedValue
-	private Long id;
+	private long id;
 	
 	@Size(min=1, max=25, message="Please provide your first name.")
 	private String firstName;
@@ -86,11 +86,11 @@ public class User {
 	}
 	/******************************** SETTERS AND GETTERS  **********************************/
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

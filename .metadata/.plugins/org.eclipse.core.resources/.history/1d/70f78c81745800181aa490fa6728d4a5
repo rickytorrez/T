@@ -1,6 +1,7 @@
 package com.ericardo.toDo.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,25 +9,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ericardo.toDo.models.User;
-import com.ericardo.toDo.models.Task;
+import com.ericardo.toDo.models.Item;
 
 @Entity
-public class Item {
-
+public class Task {
 	/*************************************** ATTRIBUTES **************************************/
 	@Id
 	@GeneratedValue
-	private Long id;
+	private long id;
 	
-	private String description;
+	@Size(min=1, max=25, message="Please provide a name for your task-list")
+	private String taskName;
 	
-	private boolean completed;
+	@Size(min=1, max=124, message="Please provide a description for your task-list")
+	private String description;	
 	 	
 	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
 	private Date createdAt;
@@ -35,36 +39,34 @@ public class Item {
 	private Date updatedAt;
 
 	/************************************* RELATIONSHIPS *************************************/
-	
-	/*************************************** with task ***************************************/
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="task_id")
-	private Task task;
-
-	public Task getTask() {
-		return task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
-	}
-
+	 	
 	/*************************************** with user ***************************************/
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
-
+	
 	public User getUser() {
 		return user;
 	}
-
+	
 	public void setUser(User user) {
 		this.user = user;
 	}
 	
+	/*************************************** with item ***************************************/
 	 	
+	@OneToMany(mappedBy="task", fetch=FetchType.LAZY)												
+	private List<Item> reviews;
+	
+	public List<Item> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Item> reviews) {
+		this.reviews = reviews;
+	}
+
 	/********************************* PERSIST AND UPDATE  **********************************/
 	 	
 	@PrePersist
@@ -77,13 +79,21 @@ public class Item {
 	 	this.updatedAt = new Date();
 	}
 	/******************************** SETTERS AND GETTERS  **********************************/
-	
-	public Long getId() {
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 	public String getDescription() {
@@ -92,14 +102,6 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
 	}
 
 	public Date getCreatedAt() {
@@ -117,12 +119,12 @@ public class Item {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
+	
 	/********************************** EMPTY CONSTRUCTOR  **********************************/
 	 	
-	public Item() {
+	public Task() {
 	 	this.createdAt = new Date();
 	 	this.updatedAt = new Date();
 	}
-	
+
 }
