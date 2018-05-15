@@ -1,0 +1,32 @@
+package com.ericardo.toDo.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.ericardo.toDo.repositories.UserRepository;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private UserRepository _uR;
+	
+	@Autowired
+	private BCryptPasswordEncoder _bcrypt;
+	
+	public BCryptPasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	public boolean isMatch(String password, String dbPassword) {								
+		if(_bcrypt.matches(password, dbPassword)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	
+}
