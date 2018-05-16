@@ -12,7 +12,7 @@
 		<title>Admin Dashboard</title>
 	</head>
 	<body>
-		<form action="/users/logout" method="get">
+		<form action="/logout" method="get">
  			<p>
  				<input type="submit" value="logout" />
  			</p>
