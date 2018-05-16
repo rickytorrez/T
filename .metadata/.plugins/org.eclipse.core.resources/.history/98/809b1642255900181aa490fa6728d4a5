@@ -17,6 +17,7 @@ import com.ericardo.toDo.services.UserService;
 
 
 @Controller
+//@RequestMapping("/users") VALID
 @RequestMapping("/")
 public class UserController {
 
@@ -36,7 +37,7 @@ public class UserController {
 	@RequestMapping("/tasks")
 	public String dashboard(Model _model, HttpSession _session) {
 		if(!_uS.isValid(_session)) 
-			return _uS.redirect();														
+			return _uS.redirect();														// Redirect is a method created on User Service
 		_model.addAttribute("users", this._uS.all());
 		return "dashboard";
 	}
@@ -48,7 +49,7 @@ public class UserController {
 		return "login_register";
 	}
 	
-	// REGISTER ROUTE
+	// Create a new user
 	@PostMapping("/newUser")
 	public String create(@Valid @ModelAttribute("user") User user, BindingResult _result, RedirectAttributes _flash, HttpSession _session) {
 		if(_result.hasErrors()) {
@@ -68,7 +69,6 @@ public class UserController {
 		}
 	}
 	
-	// LOGIN ROUTE
 	@PostMapping("/loginUser")
 	public String login(@RequestParam("email") String email,@RequestParam("password") String password,HttpSession _session,RedirectAttributes _flash){
 		if(email.length() < 1){// Dont waste a query.
@@ -92,7 +92,8 @@ public class UserController {
 		}
 	}
 	
-	// LOG OUT
+	// Log out
+	
 	@RequestMapping("/logout")
 	public String logout(HttpSession _session) {
 		return _uS.redirect();

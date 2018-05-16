@@ -24,8 +24,11 @@ public class RouteController {
 	public String index(HttpServletRequest _request, HttpSession _session) {
 		// If user not in session, take user to home route
 		if(!_uS.isValid(_session)) {															
+//			return "redirect:/users/new"; VALID
+			// has to return home page
 			return "redirect:/";
 		} else {
+//			return "redirect:users"; VALID
 			return "redirect:tasks";
 		}
 	}
