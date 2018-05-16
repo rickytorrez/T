@@ -1,0 +1,43 @@
+package com.ericardo.toDo.services;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ericardo.toDo.models.Task;
+import com.ericardo.toDo.repositories.TaskRepository;
+
+@Service
+public class TaskService {
+
+	@Autowired
+	private TaskRepository _tR;
+	
+	// CRUD
+	public void create(Task task) {
+		_tR.save(task);
+	}
+	
+	public Task find(Long id) {
+		return (Task) _tR.findOne(id);
+	}
+	
+	public void update(Task task) {
+		_tR.save(task);
+	}
+	
+	public void destroy(Long id) {
+		_tR.delete(id);
+	}
+	
+	// FIND ALL AND BY TASK NAME
+	public ArrayList<Task> all(){
+		return (ArrayList<Task>) _tR.findAll();
+	}
+	
+	public ArrayList<Task> findByTaskName(String taskName){
+		return (ArrayList<Task>) _tR.findByTaskName(taskName);
+	}
+	
+}

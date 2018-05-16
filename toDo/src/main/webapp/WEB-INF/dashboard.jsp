@@ -20,13 +20,7 @@
  		<h2>Dashboard</h2>
  		<hr>
  		
- 		<c:forEach items="${users}" var="user">
- 			<p>${ user.id }</p>
- 			<p>${ user.firstName }</p>
- 			<p>${ user.lastName }</p>
- 			<p>${ user.email }</p>
- 			<p>${ user.password }</p>
- 		</c:forEach>
+		Welcome, ${user.firstName}
 		
 	</body>
 </html>
