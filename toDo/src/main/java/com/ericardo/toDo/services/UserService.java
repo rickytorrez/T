@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +13,16 @@ import com.ericardo.toDo.repositories.UserRepository;
 @Service
 public class UserService {
 
-	@Autowired
 	private UserRepository _uR;
-	
-	@Autowired
 	private BCryptPasswordEncoder _bcrypt;
 	
-	public BCryptPasswordEncoder encoder() {
+	public UserService(UserRepository _uR) {
+		this._uR = _uR;
+		this._bcrypt = encoder();															
+	}
+	
+	// Method used to create instance
+	public BCryptPasswordEncoder encoder() {													
 		return new BCryptPasswordEncoder();
 	}
 	

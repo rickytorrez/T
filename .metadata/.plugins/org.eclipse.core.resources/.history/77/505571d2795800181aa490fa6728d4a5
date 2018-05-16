@@ -1,0 +1,87 @@
+package com.ericardo.toDo.services;
+
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.ericardo.toDo.models.User;
+import com.ericardo.toDo.repositories.UserRepository;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private UserRepository _uR;
+	
+	@Autowired
+	private BCryptPasswordEncoder _bcrypt;
+	
+	public BCryptPasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	// Takes a password from a form and matches to the one in the db
+	public boolean isMatch(String password, String dbPassword) {								
+		if(_bcrypt.matches(password, dbPassword)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// Use session to store the user id of the person logged in
+	public void login(HttpSession _session, Long id) {										
+		_session.setAttribute("id", id);
+	}
+	
+	// Kicks you out of session
+	public void logout(HttpSession _session) {												
+		_session.setAttribute("id", null);
+	}
+
+	// Returns a string that redirects you to the dashboard
+	public String redirect() {																
+		return "redirect:/users/new";
+	}
+	
+	// Compares to see if you're in session
+	public boolean isValid(HttpSession _session) {											
+		if(_session.getAttribute("id") == null ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	// Standard CRUD 
+	
+	public User create(User user) {
+		user.setPassword(_bcrypt.encode(user.getPassword()));
+		return this._uR.save(user);
+	}
+	
+	public ArrayList<User> all(){
+		return (ArrayList<User>) this._uR.findAll();
+	}
+	
+	public User find(Long id) {
+		return (User) this._uR.findOne(id);
+	}
+	
+	public User findByEmail(String email) {
+		return (User) this._uR.findByEmail(email);
+	}
+	
+	public void update(User user) {
+		this._uR.save(user);
+	}
+	
+	public void destroy(Long id) {
+		this._uR.delete(id);
+	}
+	
+}

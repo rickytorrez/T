@@ -3,7 +3,6 @@ package com.ericardo.toDo.controllers;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +20,13 @@ import com.ericardo.toDo.services.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-	@Autowired
 	private UserService _uS;
-		
-	// Route to Dashboard
 	
+	public UserController(UserService _uS) {
+		this._uS = _uS;
+	}
+	
+	// Route to Dashboard
 	@RequestMapping("")
 	public String dashboard(Model _model, HttpSession _session) {
 		if(!_uS.isValid(_session)) 
@@ -78,7 +79,7 @@ public class UserController {
 		}else{
 			if(_uS.isMatch(password,user.getPassword())){
 				_uS.login(_session,user.getId());
-				return "redirect:/listings";			
+				return "redirect:/listings";		
 			}else{
 				_flash.addFlashAttribute("error","Invalid Credentials");
 				return "redirect:/users/new";								
@@ -94,3 +95,4 @@ public class UserController {
 	}
 
 }
+

@@ -36,7 +36,7 @@ public class User {
 	@Email(message="Invalid E-mail format. Ex: example@example.com")
 	private String email;
 	
-	@Size(min=8, max=25, message="Please provide a password longer than eight characters")
+	@Size(min=8, max=124, message="Please provide a password longer than eight characters")
 	private String password;
 	
 	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
