@@ -47,7 +47,7 @@ public class UserService {
 
 	// Returns a string that redirects you to the dashboard
 	public String redirect() {																
-		return "redirect:/login";
+		return "redirect:/users/login";
 	}
 	
 	// Compares to see if you're in session

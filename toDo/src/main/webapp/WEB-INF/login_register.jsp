@@ -16,7 +16,7 @@
 	    		</c:forEach>
 	    </c:if>
  		
- 		<form:form action="/newUser" method="post" modelAttribute="user">
+ 		<form:form action="/users/newUser" method="post" modelAttribute="user">
  			<p>
  				<form:label path="firstName">First Name
  					<form:errors path="firstName"></form:errors>
@@ -48,7 +48,7 @@
  				<p>${ error }</p>
  		</c:if>
  		
- 		<form action="/loginUser" method="post">
+ 		<form action="/users/loginUser" method="post">
  			<p>
  				<label>Email
  					<input type="text" name="email"/>

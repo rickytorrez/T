@@ -9,7 +9,7 @@
 	<body>
 		<h1>Welcome to Task-O</h1>
 		
-		<a href="/login">Login</a>
+		<a href="/users/login">Login</a>
 		
 		
 	</body>

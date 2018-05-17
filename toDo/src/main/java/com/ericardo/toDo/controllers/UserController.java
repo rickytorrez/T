@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,30 +16,13 @@ import com.ericardo.toDo.services.UserService;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/users/")
 public class UserController {
 
 	private UserService _uS;
 	
 	public UserController(UserService _uS) {
 		this._uS = _uS;
-	}
-	
-	// HOME ROUTE
-	@RequestMapping("")
-	public String home() {
-		return "home";
-	}
-	
-	// DASHBOARD ROUTE
-	@RequestMapping("/tasks")
-	public String dashboard(Model _model, HttpSession _session) {
-		if(!_uS.isValid(_session)) 
-			return _uS.redirect();																
-		User user = _uS.find( (Long) _session.getAttribute("id") );
-		_model.addAttribute("user", user);
-		
-		return "dashboard";
 	}
 	
 	// LOGIN - REGISTER ROUTE
@@ -50,12 +32,12 @@ public class UserController {
 		return "login_register";
 	}
 	
-	// REGISTER ROUTE -
+	// REGISTER ROUTE
 	@PostMapping("/newUser")
 	public String create(@Valid @ModelAttribute("user") User user, BindingResult _result, RedirectAttributes _flash, HttpSession _session) {
 		if(_result.hasErrors()) {
 			_flash.addFlashAttribute("errors", _result.getAllErrors());
-			return "redirect:/login";
+			return "redirect:/users/login";
 		} else {
 			User exists = _uS.findByEmail(user.getEmail());
 			
@@ -65,7 +47,7 @@ public class UserController {
 				return "redirect:/tasks";
 			} else {
 				_flash.addFlashAttribute("error", "A user with this e-mail already exists.");
-				return "redirect:/login";
+				return "redirect:/users/login";
 			}
 		}
 	}
@@ -75,21 +57,21 @@ public class UserController {
 	public String login(@RequestParam("email") String email,@RequestParam("password") String password,HttpSession _session,RedirectAttributes _flash){
 		if(email.length() < 1){// Dont waste a query.
 			_flash.addFlashAttribute("error","Email cannot be blank.");
-			return "redirect:/login";			
+			return "redirect:/users/login";			
 		}
 
 		User user = _uS.findByEmail(email);
 
 		if(user == null){
 			_flash.addFlashAttribute("error","No user with this email was found.");
-			return "redirect:/login";
+			return "redirect:/users/login";
 		}else{
 			if(_uS.isMatch(password,user.getPassword())){
 				_uS.login(_session,user.getId());
 				return "redirect:/tasks";		
 			}else{
 				_flash.addFlashAttribute("error","Invalid Credentials");
-				return "redirect:/login";								
+				return "redirect:/users/login";								
 			}
 		}
 	}
