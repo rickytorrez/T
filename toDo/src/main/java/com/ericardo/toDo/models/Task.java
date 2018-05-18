@@ -57,14 +57,14 @@ public class Task {
 	/*************************************** with item ***************************************/
 	 	
 	@OneToMany(mappedBy="task", fetch=FetchType.LAZY)												
-	private List<Item> reviews;
+	private List<Item> items;
 	
-	public List<Item> getReviews() {
-		return reviews;
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public void setReviews(List<Item> reviews) {
-		this.reviews = reviews;
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	/********************************* PERSIST AND UPDATE  **********************************/

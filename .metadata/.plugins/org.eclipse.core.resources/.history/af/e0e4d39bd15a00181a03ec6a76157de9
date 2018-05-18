@@ -1,0 +1,36 @@
+package com.ericardo.toDo.controllers;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ericardo.toDo.services.ItemService;
+import com.ericardo.toDo.services.TaskService;
+
+@Controller
+@RequestMapping("/item")
+public class ItemController {
+	@Autowired
+	private ItemService _iS;
+	
+	@Autowired
+	private TaskService _tS;
+	
+	@RequestMapping("{id}")
+	public String showItems(@PathVariable("id") Long id, HttpSession _session, BindingResult _result, Model _model) {
+		System.out.print("Item -> ID route @ItemController ");
+		System.out.println("ID " + id);
+	
+		_model.addAttribute("task", _tS.find(id));
+		
+		
+		return "itemForTask";
+	}
+
+	
+}

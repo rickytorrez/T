@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,9 +25,8 @@ public class Item {
 	@GeneratedValue
 	private Long id;
 	
+	@Size(min=1, max=25, message="Please provide your first name.")
 	private String description;
-	
-	private boolean completed;
 	 	
 	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
 	private Date createdAt;
@@ -92,14 +92,6 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
 	}
 
 	public Date getCreatedAt() {

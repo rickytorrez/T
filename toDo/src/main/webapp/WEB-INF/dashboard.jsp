@@ -18,9 +18,24 @@
  			</p>
  		</form>
  		<h2>Dashboard</h2>
- 		<hr>
- 		
 		Welcome, ${user.firstName}
-		
+ 		<hr>
+ 		<h2>Create a New Task List</h2>
+ 		<form:errors path="task.errors.*"></form:errors>
+ 		<form:form method="POST" action="/tasks/newTask" modelAttribute="task">
+ 			<form:label path="taskName">List Name:
+				<form:input path="taskName"></form:input>
+			</form:label>
+			<form:label path="description">List Description
+				<form:input path="description"></form:input>
+			</form:label>
+			<input type="submit" value="Create List"/>
+ 		</form:form>
+ 		
+ 		<c:forEach items="${user.getTasks()}" var="task">
+ 			<p>Title: ${task.taskName}</p>
+ 			<p>Description: ${task.description}</p>
+ 			<button><a href="/tasks/${task.id}">View Tasks!</a></button>
+ 		</c:forEach>
 	</body>
 </html>
